@@ -1,7 +1,6 @@
 package file;
 
 import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,39 +10,31 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Matcher;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
+
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 
 
 
 import egovframework.example.file.ZipFileController;
-import egovframework.example.file.ZipFileDto;
+
 import egovframework.example.file.ZipFileUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.matchers.JUnitMatchers.*;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+
 
 public class ZipFileTest {
 	private final static String ABSOLUTEPATH_ZIPFILE = "C:\\GIS_WS\\eGovFrameDev-3.8.0-64bit\\workspace\\TempProject\\src\\";
