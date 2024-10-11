@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,6 +18,11 @@ public class RequestLoggingFilter implements Filter {
 	private static final Logger logger = LoggerFactory.getLogger(RequestLoggingFilter.class);
 	
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // 초기화 작업
+    }
+    
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -34,5 +40,10 @@ public class RequestLoggingFilter implements Filter {
 	    // 필터 체인 계속 진행
 	    chain.doFilter(request, response);
 	}
+	
+    @Override
+    public void destroy() {
+        // 필터가 제거될 때 수행할 작업
+    }
 
 }
