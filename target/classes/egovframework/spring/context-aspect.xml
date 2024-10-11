@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+	<!-- 
+		[AOP](Aspect Oriented Programming)
+		AOP 서비스는 관점지향 프로그래밍 사상을 구현하고 지원
+		객체지향 프로그래밍은 일련의 함수 실행이 아닌 상호작용하는 객체들의 집합으로 보며 클래스를 주요 단위로 한다
+		객체지향 프로그램은 많은 장점에도 불구하고, 다수의 객체들에 분산되어 중복적으로 존재하는 공통 관심사가 존재한다. 이들은 프로그램을 복잡하게 만들고, 코드의 변경을 어렵게 한다
+		관점지향 프로그래밍은 이러한 객체지향 프로그래밍의 문제점을 보완하는 방법으로 핵심 관심사를 분리하여 프로그램 모듈화를 향상시키는 프로그래밍 스타일이다. AOP는 객체를 핵심 관심사와 횡단 관심사로 분리하고, 횡단 관심사를 관점이라는 모듈로 정의, 핵심 관심사와 엮어서 처리할 수 있는 방법을 제공한다
+		
+		- 관점(Aspect) : 프로그램의 핵심 관심사에 걸처 적용되는 공통 프로그램 영역(ex- 로깅, 인증, 권한확인, 트랜잭션 등)은 비즈니스 구현 시 공통으로 적용되는 요소이며 하나의 관점으로 정의될 수 있다
+		- 핵심 관심사(Core concern)프로그램을 작성하려는 핵심 가치와 목적이 드러나 관심영역으로 보통 핵심 비즈니스 기능에 해당
+		- 횡단 관심사(Cross-cutting concern)는 핵심 관심에 영향을 주는 프로그램의 영역으로, 로깅, 트랜잭션, 인증처리와 같은 시스템 공통처리 영역이 해당 
+	-->
+	
+	<!-- 
+		[AOP Configuration(aop:config)]
+		- aop:pointcut 
+			1. id="serviceMethod"라는 이름의 포인트컷을 정의
+			2. expression="excution(* ..."는 특정 메소드 패턴을 가리킨다. 즉 egovframework.example 패키지의 impl로 끝나는 클래스(*Impl)의 모든 메소드(*.*)가 타겟이 된다
+			3. 이 포인트컷은 서비스 레이어의 메소드에서 발생하는 예외를 처리할 때 사용된다
+		- aop:aspect
+			1. ref="exceptionTransfer"로 정의된 exceptionTransfer라는 빈을 참조
+			2. aop:after-throwing을 통해 포인트컷 serviceMethod에서 예외가 발생할 때 이를 가로채고 exceptionTransfer 빈의 transfer 메소드를 호출
+			3. throwing="exception"은 발생한 예외를 exception 변수로 받는다는 의미이다
+	 -->
+	<aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(* egovframework.example..impl.*Impl.*(..))" />
+
+		<aop:aspect ref="exceptionTransfer">
+			<aop:after-throwing throwing="exception" pointcut-ref="serviceMethod" method="transfer" />
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 예외를 전달하고 처리하는 역할 -->
+	<bean id="exceptionTransfer" class="egovframework.rte.fdl.cmmn.aspect.ExceptionTransfer">
+		<property name="exceptionHandlerService">
+			<list>
+				<ref bean="defaultExceptionHandleManager" />
+				<ref bean="otherExceptionHandleManager" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="defaultExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="egovHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="otherExceptionHandleManager" class="egovframework.rte.fdl.cmmn.exception.manager.DefaultExceptionHandleManager">
+		<property name="reqExpMatcher">
+			<ref bean="antPathMater"/>
+		</property>
+		<property name="patterns">
+			<list>
+				<value>**service.impl.*</value>
+			</list>
+		</property>
+		<property name="handlers">
+			<list>
+				<ref bean="otherHandler" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="egovHandler" class="egovframework.example.cmmn.EgovSampleExcepHndlr" />
+	<bean id="otherHandler" class="egovframework.example.cmmn.EgovSampleOthersExcepHndlr" />	
+	
+</beans>

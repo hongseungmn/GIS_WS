@@ -1,0 +1,274 @@
+@charset "UTF-8";
+body {
+  font-family: "Do Hyeon", sans-serif;
+  font-style: normal;
+}
+.body {
+	margin: 0;
+	padding: 0;
+}
+.map {
+      height: 60%;
+      width: 99%;
+    }
+    
+.ol-dragbox {
+  background-color: rgba(255,255,255,0.4);
+  border-color: rgba(100,150,0,1);
+}
+
+.ol-touch .rotate-north {
+  top: 80px;
+}
+
+
+
+.modal-dialog {
+  max-width: 100%;
+}
+.modal-dialog-slideout {
+  min-height: 100%;
+  margin: 0 0 0 auto;
+  background: #fff;
+}
+.modal.fade .modal-dialog.modal-dialog-slideout {
+  -webkit-transform: translate(100%, 0)scale(1);
+  transform: translate(100%, 0)scale(1);
+}
+.modal.fade.show .modal-dialog.modal-dialog-slideout {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+  display: flex;
+  align-items: stretch;
+  -webkit-box-align: stretch;
+  height: 100%;
+  padding-right: 0;
+}
+.modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.modal-dialog-slideout .modal-content {
+  border: 8px solid #6f6f6f8a;
+  border-radius: 30px;
+  box-shadow: 8px 6px 13px 0px;
+}
+.modal-dialog-slideout .modal-header,
+.modal-dialog-slideout .modal-footer {
+  height: 4rem;
+  display: block;
+}
+
+.modal-backdrop {
+  display: none; /* 배경을 숨깁니다 */
+}
+
+/* 모달을 오른쪽 반에 위치시키기 */
+.modal {
+    position: absolute; /* 기본 설정을 덮어쓰기 위해 절대 위치 설정 */
+    top: 0;
+    right: 0;
+    left: auto;
+    width: 50%; /* 화면의 오른쪽 절반을 차지 */
+    height: 100%; /* 전체 높이 차지 */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+.modal-dialog {
+	background: transparent;
+}
+
+/* 각 컬럼에 대한 너비 설정 */
+table.dataTable th:nth-child(1), 
+table.dataTable td:nth-child(1) {
+    width: 70px; /* 연번 컬럼의 너비 */
+}
+
+table.dataTable th:nth-child(2), 
+table.dataTable td:nth-child(2) {
+    width: 200px; /* 용도지역 컬럼의 너비 */
+}
+
+table.dataTable th:nth-child(3), 
+table.dataTable td:nth-child(3) {
+    width: 300px; /* 주소 컬럼의 너비 */
+}
+
+/* 헤더와 바디의 배경색을 구분 */
+/* table.dataTable thead th {
+    background-color: #333; 헤더 배경색
+    color: #fff; 헤더 글자색
+}
+
+table.dataTable tbody td {
+    color: #333; 바디 글자색
+} */
+
+
+.ol-popup {
+   position: absolute;
+   background-color: white;
+   -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+   filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+   border-radius: 10px;
+   bottom: 12px;
+   left: -50px;
+   min-width: 400px;
+}
+.ol-popup:after, .ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+.ol-popup-closer {
+  text-decoration: none;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+}
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+.overlay-title {
+	border: 3px solid #4b4b4b;
+    border-bottom: none;
+    border-radius: 10px 10px 0px 0px;
+    background-color: #4d4d4d4a;
+    padding: 12px
+}
+
+.overlay-content {
+	border: 3px solid #4b4b4b;
+    /* border: none; */
+    border-radius: 0px 0px 10px 10px;
+    background-color: #6d6d6d00;
+    padding: 10px;
+    box-shadow: 0px 2px 12px 0px grey;
+}
+
+
+
+.overlay-details-button { 
+	border: 3px solid #4b4b4b;
+	border-top: none;
+	border-radius: 0px 0px 10px 10px;
+	background-color: #6d6d6d00;
+	padding-left: 5px;
+	margin-top: -10px;
+    padding-top: 10px;
+    color: #0606c3;
+}
+
+.overlay-expended-popup {
+	min-width: 700px;
+}
+.overlay-expended {
+	font-size: 20px;
+	
+}
+
+.overlay-area {
+	margin-top : 5px;
+}
+
+.overlay-details {
+	maring: 0;
+	padding: 0;
+	font-size: 12px;
+	color: black;
+}
+
+.overlay-content-title {
+	display: flex;
+}
+
+.overlay-input {
+	flex: 1;
+	margin-bottom: 3px;
+}
+
+.list-group {
+	flex-direction: row;
+}
+
+.data-table-area {
+	hegiht:50%;
+}
+
+#mapHolder, #mapHolder2, #chartHolder, #chartHolder2 {
+	text-align: justify;
+}
+
+.buttonNav-groups {
+	display: flex;
+  	top: 10px;
+  	left: 40px;
+	display: flex;
+    position: absolute;
+    background-color:#ebebeb;
+    width:500px;
+    height:50px;
+    padding: 3px;
+    border-radius: 15px;
+}
+
+#modal-button {
+	
+	width: 100%;
+    height: 40px;
+    border-radius: 15px 0 0 15px;
+} 
+#modal-button2 {
+	
+	width: 100%;
+    height: 40px;
+    border-radius: 0 15px 15px 0;
+} 
+
+#spliter {
+	border-right: solid 2px #ffffff;
+}
+
+.backdrop {
+    position: fixed;
+    top: -9999px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65); /* 어두운 투명 배경 */
+    z-index: 1000; /* 모달 뒤에 있도록 설정 */
+    padding: 0px 100px;
+}
+
+#backdrop-header {
+	display: flex;
+	padding-top:50px;
+/* 	padding-right: 100px; */
+/* 	height:150px; */
+
+}
+
+#close-backdrop img {
+    width:40px;
+}
+
+#close-backdrop img:hover {
+    width:50px;
+}

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.people.service.impl.PeopleMapper">
+
+	<resultMap id="peopleMap" type="people_VO">
+		<result property="code" column="b_num"/>
+		<result property="city_code" column="b_address"/>
+		<result property="si_code" column="b_jimoc"/>
+		<result property="dong_code" column="b_city_name"/>
+		<result property="tot_tot" column="b_city_name"/>
+		<result property="m_tot" column="b_city_name"/>
+		<result property="w_tot" column="b_city_name"/>
+		<result property="m_children" column="b_city_name"/>
+		<result property="m_adult" column="b_city_name"/>
+		<result property="m_elder" column="b_city_name"/>
+		<result property="w_children" column="b_city_name"/>
+		<result property="w_adult" column="b_city_name"/>
+		<result property="w_elder" column="b_city_name"/>
+		<result property="total_sum" column="b_total_sum"/>
+	</resultMap>
+	
+	<resultMap type="egovframework.example.people.service.PeopleSI_VO" id="peopleSI">
+		<result property="code" column="b_code"/>
+		<result property="si_code" column="b_si_code"/>
+	</resultMap>
+
+	<select id="selectPeopleList" resultMap="peopleMap">
+		    SELECT * FROM korean_people WHERE si_code LIKE '%용인시%'
+	</select>
+	
+	<select id="selectPeopleListByLabel" parameterType="String" resultMap="peopleMap">
+	    SELECT * FROM korean_people 
+	    WHERE city_code LIKE CONCAT('%', #{label}, '%') 
+	    OR si_code LIKE CONCAT('%', #{label}, '%') 
+	    OR dong_code LIKE CONCAT('%', #{label}, '%')
+	</select>
+	
+	<select id="selectPeopleSIList" resultType="HashMap">
+		SELECT 
+		    korean_people.city_code,
+		    korean_people.si_code,
+		    kps.code,
+		    SUM(korean_people.total) AS total
+		FROM 
+		    korean_people
+		JOIN 
+		    korean_people_si kps 
+		    ON korean_people.si_code = kps.si_code
+		GROUP BY 
+		    korean_people.city_code,
+		    korean_people.si_code,
+		    kps.code
+	</select>
+	
+	<select id="selectPeopleCityList" resultType="HashMap">
+		SELECT 
+		    korean_people.city_code,
+		    kps.code,
+		    SUM(korean_people.total) AS total
+		FROM 
+		    korean_people
+		JOIN 
+		    korean_people_city kps 
+		    ON korean_people.city_code = kps.city_code
+		GROUP BY 
+		    korean_people.city_code,
+		    kps.code
+	</select>
+	
+	<select id="selectPeopleListBySetting" parameterType="String" resultMap="peopleMap">
+	    SELECT 
+	        code, 
+	        city_code, 
+	        si_code, 
+	        dong_code,
+	        SUM(
+	            <choose>
+				    <when test="sex == 'tot' and age == 'tot'">
+				        total
+				    </when>
+				    <when test="sex == 'tot' and age == 'children'">
+				        m_children + w_children
+				    </when>
+				    <when test="sex == 'tot' and age == 'adult'">
+				        m_adult + w_adult
+				    </when>
+				    <when test="sex == 'tot' and age == 'elder'">
+				        m_elder + w_elder
+				    </when>
+				    <when test='sex == "m" and age == "tot"'>
+				        m_children + m_adult + m_elder
+				    </when>
+				    <when test='sex == "w" and age == "tot"'>
+				        w_children + w_adult + w_elder
+				    </when>
+				    <otherwise>
+				        ${sex}_${age}
+				    </otherwise>
+				</choose>
+	        ) AS total
+	    FROM korean_people
+	    GROUP BY code, city_code, si_code, dong_code;
+	</select>
+	
+		<select id="selectPeopleSIListBySetting" resultType="HashMap">
+		SELECT 
+		    korean_people.city_code,
+		    korean_people.si_code,
+		    kps.code,
+		    SUM(
+		    	<choose>
+				    <when test="sex == 'tot' and age == 'tot'">
+				        korean_people.total
+				    </when>
+				    <when test="sex == 'tot' and age == 'children'">
+				        korean_people.m_children + korean_people.w_children
+				    </when>
+				    <when test="sex == 'tot' and age == 'adult'">
+				        korean_people.m_adult + korean_people.w_adult
+				    </when>
+				    <when test="sex == 'tot' and age == 'elder'">
+				        korean_people.m_elder + korean_people.w_elder
+				    </when>
+				    <when test='sex == "m" and age == "tot"'>
+				        korean_people.m_children + korean_people.m_adult + korean_people.m_elder
+				    </when>
+				    <when test='sex == "w" and age == "tot"'>
+				        korean_people.w_children + korean_people.w_adult + korean_people.w_elder
+				    </when>
+				    <otherwise>
+				        korean_people.${sex}_${age}
+				    </otherwise>
+				</choose>
+		    ) AS total
+		FROM 
+		    korean_people
+		JOIN 
+		    korean_people_si kps 
+		    ON korean_people.si_code = kps.si_code
+		GROUP BY 
+		    korean_people.city_code,
+		    korean_people.si_code,
+		    kps.code
+	</select>
+	
+	<select id="selectPeopleCityListBySetting" resultType="HashMap">
+		SELECT 
+		    korean_people.city_code,
+		    kps.code,
+		    SUM(
+		    	<choose>
+				    <when test="sex == 'tot' and age == 'tot'">
+				        korean_people.total
+				    </when>
+				    <when test="sex == 'tot' and age == 'children'">
+				        korean_people.m_children + korean_people.w_children
+				    </when>
+				    <when test="sex == 'tot' and age == 'adult'">
+				        korean_people.m_adult + korean_people.w_adult
+				    </when>
+				    <when test="sex == 'tot' and age == 'elder'">
+				        korean_people.m_elder + korean_people.w_elder
+				    </when>
+				    <when test='sex == "m" and age == "tot"'>
+				        korean_people.m_children + korean_people.m_adult + korean_people.m_elder
+				    </when>
+				    <when test='sex == "w" and age == "tot"'>
+				        korean_people.w_children + korean_people.w_adult + korean_people.w_elder
+				    </when>
+				    <otherwise>
+				        korean_people.${sex}_${age}
+				    </otherwise>
+				</choose>
+		    ) AS total
+		FROM 
+		    korean_people
+		JOIN 
+		    korean_people_city kps 
+		    ON korean_people.city_code = kps.city_code
+		GROUP BY 
+		    korean_people.city_code,
+		    kps.code
+	</select>
+	
+	<select id="selectPeopleByCode" parameterType="Integer" resultType="HashMap">
+		SELECT * FROM korean_people WHERE korean_people.code = #{code}
+	</select>
+
+</mapper>

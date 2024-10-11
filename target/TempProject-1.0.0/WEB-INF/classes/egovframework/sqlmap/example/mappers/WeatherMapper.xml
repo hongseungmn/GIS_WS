@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.example.board.service.impl.WeatherMapper">
+	<select id="getWeatherCode" parameterType="String" resultType="Map">
+		SELECT * FROM weather WHERE level_2 LIKE '%용인시%' AND level_3 LIKE concat('%',#{label},'%')
+	</select>
+</mapper>
