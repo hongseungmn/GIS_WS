@@ -2,6 +2,7 @@ package file;
 
 import static org.junit.Assert.assertThat;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+//import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.hamcrest.CoreMatchers;
 
 import org.junit.Before;
@@ -100,7 +101,7 @@ public class ZipFileTest {
 		
 		//given
 		Path dstPath = Paths.get( ABSOLUTEPATH_ZIPFILE + "test\\resources\\unZipTest\\");
-		FileUtils.deleteDirectory(dstPath.toFile());
+		//FileUtils.deleteDirectory(dstPath.toFile());
 		final Path testZipPath = Paths.get( ABSOLUTEPATH_ZIPFILE + "test\\resources\\unZipTest.zip");
 		
 		//when
@@ -128,7 +129,7 @@ public class ZipFileTest {
 	public void givenZipFileYesIMG_when_thenCheck() throws IOException {
 		//given
 		Path dstPath = Paths.get( ABSOLUTEPATH_ZIPFILE + "test\\resources\\unZipTest\\");
-		FileUtils.deleteDirectory(dstPath.toFile());
+		//FileUtils.deleteDirectory(dstPath.toFile());
 		final Path testPath = Paths.get( ABSOLUTEPATH_ZIPFILE + "test\\resources\\unZipTest.zip");
 		
 		//when
