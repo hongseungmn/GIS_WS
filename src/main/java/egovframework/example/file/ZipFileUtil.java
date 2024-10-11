@@ -1,6 +1,7 @@
 package egovframework.example.file;
 
 import java.io.BufferedInputStream;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,8 +22,6 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
-
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +81,7 @@ public class ZipFileUtil {
 	    return text != null && !text.trim().isEmpty();
 	}
 	
-	public static void unZipFile(Path dstPath, Path testZipPath, @Nullable Function<Path, Path> renameDuplicatedFilename) throws IOException {
+	public static void unZipFile(Path dstPath, Path testZipPath, Function<Path, Path> renameDuplicatedFilename) throws IOException {
 		try (InputStream inputStream = Files.newInputStream(testZipPath)) {
 			try (ZipInputStream zipInputStream = new ZipInputStream(inputStream, Charset.forName("EUC-KR"))) {
 				ZipEntry entry;
